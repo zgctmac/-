@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+        <title>ECharts</title>
+{#        <link rel="stylesheet" type="text/css" href="css/main.css"/>#}
+        <script src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+        <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+        <style>#china-map {width:800px; height: 800px;margin: auto;}</style>
+    </head>
+    <body>
+
+        <div id="china-map"></div>
+
+        <script>
+            var myChart = echarts.init(document.getElementById('china-map'));
+            var option = {
+                title : {
+                        text: '千人计划地图显示',
+                        subtext: '来源真实',
+                        top:'15%',
+                        left:'center',
+                        size:'auto'
+                    },
+                tooltip: {
+//                    show: false //不显示提示标签
+                    formatter: '{b}<br/>{c} (人数)', //提示标签格式
+                    backgroundColor:"#ff7f50",//提示标签背景颜色
+                    textStyle:{color:"#fff"} //提示标签字体颜色
+                },
+                toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {readOnly: false},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        visualMap: {
+            min: 0,
+            max: 200,
+            text:['High','Low'],
+            realtime: false,
+            calculable: true,
+            inRange: {
+                color: ['lightskyblue','yellow', 'orangered']
+            }
+        },
+                series: [{
+                    type: 'map',
+                    mapType: 'china',
+                    itemStyle: {
+                       normal:{label:{show:true}},
+                       emphasis:{label:{show:true}}
+                    },
+                    data:{{ json_map_datas|safe }}
+                }],
+            };
+
+            myChart.setOption(option);
+            //myChart.on('mouseover', function (params) {
+              //  var dataIndex = params.dataIndex;
+               // console.log(params);
+            //});
+        </script>
+
+    </body>
+</html>

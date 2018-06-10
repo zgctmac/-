@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main1" style="height:400px"></div>
+    <div id="main2" style="height:400px"></div>
+    <div id="main3" style="height:400px"></div>
+    <div id="main4" style="height:400px"></div>
+    <div id="main5" style="height:400px"></div>
+    <div id="main6" style="height:400px"></div>
+    <div id="main7" style="height: 300px"></div>
+        <div style="text-align: right">
+  <input type = "button" value = "下一页" onclick=window.open('http://127.0.0.1:8000/map/') style="width: 100px;height: 100px;color: blue">
+</div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/line',
+                'echarts/chart/pie'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart1 = ec.init(document.getElementById('main1'));
+                var myChart2 = ec.init(document.getElementById('main2'));
+                var myChart3 = ec.init(document.getElementById('main3'));
+                var myChart4 = ec.init(document.getElementById('main4'));
+                var myChart5 = ec.init(document.getElementById('main5'));
+                var myChart6 = ec.init(document.getElementById('main6'));
+                var myChart7 = ec.init(document.getElementById('main7'));
+                myChart1.setTheme("macarons");
+                myChart2.setTheme("macarons");
+                myChart3.setTheme("macarons");
+                myChart4.setTheme("macarons");
+                myChart5.setTheme("macarons");
+                myChart6.setTheme('macarons');
+                var option1 = {
+                    title : {
+                        text: '千人计划综述',
+                        subtext: '来源真实'
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['年份分析']
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category', //x轴为类目类型
+                            axisLabel:{
+                                show:true,
+                                interval:0,
+                                name:'aa'
+                            },
+                            data : {{ json_year_name|safe }}
+
+                    }],
+                    yAxis : [
+                        {
+                            type : 'value'  //y轴为值类型
+                        }
+                    ],
+                    series : [{
+                        name:'人数',
+                        type:'line',
+                        smooth:true,
+                        symbol:'triangle',
+                        data:{{ json_year_nummber|safe }}
+                    },
+                        {
+                            name:'年份',
+                        type:'pie',
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        center: [220,100],
+                        radius : [0, 50],
+                        itemStyle :　{
+                            normal : {
+                                labelLine : {
+                                    length : 20
+                                }
+                            }
+                        },
+                        data:{{ json_year_datas|safe }}
+                        }
+                    ]
+                }
+
+            var option2 = {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['月份分析']
+                    },
+                    toolbox: {
+                        y : -20,
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            {#saveAsImage : {show: true}#}
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category', //x轴为类目类型
+                            axisLabel:{
+                                show:true,
+                                interval:0,
+                                rotate:45
+                            },
+                            data : ['1','2','3','4','5','6','7','8','9','10','11','12']
+
+                    }],
+                    yAxis : [
+                        {
+                            type : 'value'  //y轴为值类型
+                        }
+                    ],
+                    series : [{
+                        name:'南方',
+                        type:'line',
+                        smooth:true,
+                        data:{{ json_south_data|safe }}
+
+                    }
+                    ,{
+                        name:'北方',
+                        type:'line',
+                        smooth:true,
+                        data:{{ json_north_data|safe }}
+                        },
+                        {
+                            name:'月份',
+                        type:'pie',
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        center: [250,100],
+                        radius : [0, 50],
+                        itemStyle :　{
+                            normal : {
+                                labelLine : {
+                                    length : 20
+                                }
+                            }
+                        },
+                        data:{{ json_month_datas|safe }}
+                        }
+                    ]
+                }
+
+            var option3 = {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['地区分析']
+                    },
+                    toolbox: {
+                        y : -30,
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            {#saveAsImage : {show: true}#}
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category', //x轴为类目类型
+                            axisLabel:{
+                                show:true,
+                                interval:0,
+                                rotate:45
+                            },
+                            data : ['华北','西北','东北','华中','华东','华南','西南']
+
+                    }],
+                    yAxis : [
+                        {
+                            type : 'value'  //y轴为值类型
+                        }
+                    ],
+                    series : [{
+                        name:'地区人数',
+                        type:'line',
+                        smooth:true,
+                        data:{{ json_area_nummber|safe }}
+                    },
+                    {
+                            name:'地区人数',
+                        type:'pie',
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        center: [200,80],
+                        radius : [0, 50],
+                        itemStyle :　{
+                            normal : {
+                                labelLine : {
+                                    length : 20
+                                }
+                            }
+                        },
+                        data:{{ json_area_datas|safe }}
+                        }]
+                }
+
+            var option4 = {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['性别分析']
+                    },
+                    toolbox: {
+                        y : -30,
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            {#saveAsImage : {show: true}#}
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category', //x轴为类目类型
+                            axisLabel:{
+                                show:true,
+                                interval:0,
+                                rotate:45
+                            },
+                            data : ['女','男']
+
+                    }],
+                    yAxis : [
+                        {
+                            type : 'value'  //y轴为值类型
+                        }
+                    ],
+                    series : [{
+                        name:'人数',
+                        type:'line',
+                        smooth:true,
+                        symbol:'triangle',
+                        data:{{ json_sex_data|safe }}
+                    },
+                        {
+                            name:'人数',
+                        type:'pie',
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        center: [200,80],
+                        radius : [0, 50],
+                        itemStyle :　{
+                            normal : {
+                                labelLine : {
+                                    length : 20
+                                }
+                            }
+                        },
+                        data:{{ json_sex_data|safe }}
+                        }
+                    ]
+                }
+
+            var option5 = {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['专业分析']
+                    },
+                    toolbox: {
+                        y : -30,
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category', //x轴为类目类型
+                            axisLabel:{
+                                show:true,
+                                interval:0,
+                                rotate:45
+                            },
+                            data : {{ json_pre_name|safe }}
+
+                    }],
+                    yAxis : [
+                        {
+                            type : 'value'  //y轴为值类型
+                        }
+                    ],
+                    series : [{
+                        name:'专业人数',
+                        type:'line',
+                        smooth:true,
+                        data:{{ json_pre_nummber|safe }}
+                    },
+                        {
+                             name:'人数',
+                        type:'pie',
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        center: [200,160],
+                        radius : [0, 50],
+                        itemStyle :　{
+                            normal : {
+                                labelLine : {
+                                    length : 20
+                                }
+                            }
+                        },
+                        data:{{ json_pre_datas|safe }}
+                        }]
+            }
+            var option6 = {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['星座分析']
+                    },
+                    toolbox: {
+                        y : -30,
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category', //x轴为类目类型
+                            axisLabel:{
+                                show:true,
+                                interval:0,
+                                rotate:45
+                            },
+                            data : {{ json_name|safe }}
+
+                    }],
+                    yAxis : [
+                        {
+                            type : 'value'  //y轴为值类型
+                        }
+                    ],
+                    series : [{
+                        name:'人数',
+                        type:'line',
+                        smooth:true,
+                        data:{{ json_nummber|safe }}
+                    },
+                        {
+                             name:'人数',
+                        type:'pie',
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        center: [180,100],
+                        radius : [0, 50],
+                        itemStyle :　{
+                            normal : {
+                                labelLine : {
+                                    length : 20
+                                }
+                            }
+                        },
+                        data:{{ json_datas|safe }}
+                        }
+                        ]}
+            var option7 = {
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        data: ['留学来源']
+    },
+    series : [
+        {
+            name: '留学来源',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[{name:'美国',value:42},
+                {name:'英国',value:16},
+                {name:'德国',value:13},
+                {name:'加拿大',value:12},
+                {name:'澳大利亚',value:7},
+                {name:'其他',value:10}],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+
+            // 为echarts对象加载数据
+            myChart1.setOption(option1);
+            myChart2.setOption(option2);
+            myChart3.setOption(option3);
+            myChart4.setOption(option4);
+            myChart5.setOption(option5);
+            myChart6.setOption(option6);
+            myChart7.setOption(option7);
+            //联动配置
+            myChart1.connect([myChart2, myChart3,myChart4,myChart5,myChart6]);
+            myChart2.connect([myChart1, myChart3,myChart4,myChart5,myChart6]);
+            myChart3.connect([myChart2, myChart1,myChart4,myChart5,myChart6]);
+            myChart4.connect([myChart2, myChart3,myChart1,myChart5,myChart6]);
+            myChart5.connect([myChart1,myChart2,myChart3,myChart4,myChart6]);
+            myChart6.connect([myChart1,myChart2,myChart3,myChart4,myChart5]);
+
+            }
+        );
+    </script>
+</body>
