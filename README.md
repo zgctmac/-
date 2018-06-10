@@ -9,9 +9,9 @@
 
 1：pip install django
 
-2:将data_process.py以及data_process1.py中的excel文档路径换成自己本地的路径
+2: 将data_process.py以及data_process1.py中的excel文档路径换成自己本地的路径
 
-3:终端执行 python manage.py runserver:8000 
+3: 终端执行 python manage.py runserver:8000 
 
 ### 其它文档
 
