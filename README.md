@@ -1,5 +1,19 @@
-# -
-web项目为高性能计算作业，用Django+echart进行开发
-配置：pip install django
-使用方法:1.将web文件夹中子文件夹web中的data_process.py和data_process1.py文件中的中的有关路径的语句改为本机的地址
-        2.改完之后就可以直接运行
+## 高性能计算作业  
+
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](LICENSE)
+
+### Description
+
+
+### 项目运行流程
+
+1：pip install django
+
+2:将data_process.py以及data_process1.py中的excel文档路径换成自己本地的路径
+
+3:终端执行 python manage.py runserver:8000 
+
+### 其它文档
+
+* 小组PPT：高性能大作业.pdf
+
